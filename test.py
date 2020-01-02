@@ -9,7 +9,7 @@ from PIL import Image
 clf = joblib.load("digits_cls.pkl")
 
 # Read the input image
-im = cv2.imread("image/sample.jpg")
+im = cv2.imread("image/bun.jpg")
 
 # Convert to grayscale and apply Gaussian filtering
 im_gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
@@ -37,7 +37,7 @@ i = 1
 for rect in rects:
     print(i)
     # Draw the rectangles
-    cv2.rectangle(im, (rect[0], rect[1]), (rect[0] + rect[2], rect[1] + rect[3]), (0, 255, 0), 3) 
+    cv2.rectangle(im, (rect[0], rect[1]), (rect[0] + rect[2], rect[1] + rect[3]), (200, 45, 125), 2)
     # Make the rectangular region around the digit
     len = int(rect[3] * 1.6)
     print(len)
@@ -51,8 +51,6 @@ for rect in rects:
 
     print(pt1, pt2)
     roi = im_th[pt1:pt1+len, pt2:pt2+len]
-
-    cv2.imshow("roi", roi)
     # Resize the image
     roi = cv2.resize(roi, (28, 28), interpolation=cv2.INTER_AREA)
     roi = cv2.dilate(roi, (3, 3))
@@ -60,7 +58,7 @@ for rect in rects:
     roi_hog_fd = hog(roi, orientations=9, pixels_per_cell=(14, 14), cells_per_block=(1, 1), block_norm='L1',
                      visualise=None)
     nbr = clf.predict(np.array([roi_hog_fd], 'float64'))
-    cv2.putText(im, str(int(nbr[0])), (rect[0], rect[1]),cv2.FONT_HERSHEY_DUPLEX, 2, (0, 255, 255), 3)
+    cv2.putText(im, str(int(nbr[0])), (rect[0], rect[1]),cv2.FONT_HERSHEY_DUPLEX, 2, (130, 50, 200), 3)
     i += 1
 
 cv2.imshow("Resulting Image with Rectangular ROIs", im)

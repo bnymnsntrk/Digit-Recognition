@@ -3,6 +3,7 @@ from sklearn import datasets
 from sklearn.datasets import fetch_openml
 from skimage.feature import hog
 from sklearn.svm import LinearSVC
+from sklearn.metrics import accuracy_score
 import numpy as np
 
 dataset = fetch_openml('mnist_784', version=1, return_X_y=False)
@@ -19,4 +20,5 @@ hog_features = np.array(list_hog_fd, 'float64')
 
 clf = LinearSVC()
 clf.fit(hog_features, labels)
+
 joblib.dump(clf, "digits_cls.pkl", compress=3)
